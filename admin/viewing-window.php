@@ -23,8 +23,8 @@ final class KemiSitemap_Viewing_Window{
    * @since 1.0.0
    * @return boolean
    */
-  function KemiSitemap_is_admin_page() {
-    if( ! is_admin() ){
+  public function KemiSitemap_is_admin_page() {
+    if( get_current_screen()->base == 'settings_page_'.KEMISITEMAP_SLUG ){
       return false;
     }
     return true;
@@ -73,6 +73,12 @@ final class KemiSitemap_Viewing_Window{
 
   public function KemiSitemap_template() {
     // return print_r($this->args, false);
+    if($this->KemiSitemap_is_admin_page()){
+      $showpost = 5;
+    } else {
+      $showpost = -1;
+    }
+
     $this->output .= '<div id="kemi-sitemap">';
     $this->output .= $this->args['title'];
     $this->output .= $this->args['paragraph'];
@@ -81,7 +87,7 @@ final class KemiSitemap_Viewing_Window{
       $this->output .= '<div class="kemi-sitemap-pt-block">';
       // $this->output .= $post_type;
 
-      $pt = new WP_Query( array('post_type' => $post_type, 'showposts' => 5) );
+      $pt = new WP_Query( array('post_type' => $post_type, 'showposts' => $showpost) );
       if ( $pt->have_posts() ) {
       	while ( $pt->have_posts() ) { $pt->the_post();
       		$this->output .= '<div>' . get_the_title() . '</div>';
@@ -93,6 +99,7 @@ final class KemiSitemap_Viewing_Window{
     }
 
     $this->output .= '';
+    $get_current_screen = get_current_screen();
     $this->output .= '</div>';
 
 
