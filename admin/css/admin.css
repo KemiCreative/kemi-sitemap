@@ -1,3 +1,7 @@
+.settings_page_kemi-sitemap table.form-table th{
+  display: none !important; 
+}
+
 /* The switch - the box around the slider */
 .switch {
   position: relative;
