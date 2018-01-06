@@ -148,12 +148,14 @@ final class KemiSitemap_Admin{
         // echo '</pre>';
         $checked = (empty($this->options[$post_type->name]) ? 1 : $this->options[$post_type->name]);
         ?>
-        <div class="KemiSitemap-cpt">
-          <div class="KemiSitemap-cpt-title"><?php echo $post_type->label; ?></div><!-- Rounded switch -->
-          <label class="switch">
+        <div class="KemiSitemap-cpt-toggle">
+          <div class="KemiSitemap-cpt-title"><?php echo $post_type->label; ?> <label class="switch">
             <input type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>]" value="<?php echo $post_type->name; ?>" taxonomy="<?php echo $post_type->taxonomies; ?>" <?php echo checked( $checked, $post_type->name, 0 ); ?> />
             <span class="slider round"></span>
-          </label>
+          </label></div><!-- Rounded switch -->
+          <div class="KemiSitemap-cpt-content">
+
+          </div>
         </div>
         <?php
       }
