@@ -6,6 +6,8 @@ final class KemiSitemap_Admin{
    */
   private $options;
 
+  private $main;
+
   /**
    * Function to determine if viewing a KemiSitemap admin Page.
    *
@@ -60,6 +62,8 @@ final class KemiSitemap_Admin{
    * Start up
    */
   public function __construct() {
+
+    $this->main = new KemiSitemap_Viewing_Window;
 
     add_action( 'admin_enqueue_scripts', array( $this, 'KemiSitemap_admin_styles' ) );
     add_action( 'admin_menu', array( $this, 'KemiSitemap_add_menu_page' ) );
@@ -176,13 +180,13 @@ final class KemiSitemap_Admin{
   		settings_fields( 'KemiSitemap_group' );
   		do_settings_sections( 'KemiSitemap_group' );
 
-      $main = new KemiSitemap_Viewing_Window;
-      echo $main;
-
   		?>
 
   	</form>
   	<?php
+
+    echo $this->main -> KemiSitemap_template();
+
   }
 
 }
