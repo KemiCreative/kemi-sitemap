@@ -149,10 +149,7 @@ final class KemiSitemap_Admin{
         // echo '<pre>';
         // print_r($taxonomies);
         // echo '</pre>';
-        $checked = ($this->options[$post_type->name]['active'] ? 1 : 0);
         $checked = (empty($this->options[$post_type->name]['active']) ? 0 : 1);
-        // echo 'checked' . $checked. '<br/>';
-        // echo 'active' . $this->options[$post_type->name]['active'];
         ?>
         <div class="kemisitemap-cpt-toggle">
           <div class="kemisitemap-cpt-title">
@@ -171,10 +168,11 @@ final class KemiSitemap_Admin{
                   <strong><?php _e('Includes','KemiSitemap'); ?></strong>
                 </span>
                 <?php
-                $category = (empty($this->options[$post_type->name]) ? 1 : $this->options[$post_type->name]);
+                $category = (empty($this->options[$post_type->name]['cat']) ? 0 : 1);
+                $ind = (empty($this->options[$post_type->name]['ind']) ? 0 : 1);
                  ?>
-                <label><input type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>]" value="<?php echo $post_type->name; ?>" <?php echo checked( $checked, $post_type->name, 0 ); ?> /><?php echo $post_type->label; ?> <?php _e('Categories','KemiSitemap'); ?></label>
-                <label><input type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>]" value="<?php echo $post_type->name; ?>" <?php echo checked( $checked, $post_type->name, 0 ); ?> /><?php _e('Individual ','KemiSitemap'); ?> <?php echo $post_type->label; ?> </label>
+                <label><input type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][cat]" value="1" <?php echo checked( $category, 1, 1 ); ?> /><?php echo $post_type->label; ?> <?php _e('Categories','KemiSitemap'); ?></label>
+                <label><input type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][ind]" value="1" <?php echo checked( $ind, 1, 1 ); ?> /><?php _e('Individual ','KemiSitemap'); ?> <?php echo $post_type->label; ?> </label>
                 <?php
               }
               ?>
@@ -182,17 +180,27 @@ final class KemiSitemap_Admin{
             </div>
             <div class="kemisitemap-includes">
               <?php if(!empty($taxonomies)){
+                $style = (empty($this->options[$post_type->name]['style']) ? 0 : 1);
                 ?>
                 <span>
                   <strong><?php _e('List Style','KemiSitemap'); ?></strong>
                 </span>
                 <label>
-                  <input type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>]" value="<?php echo $post_type->name; ?>" <?php echo checked( $checked, $post_type->name, 0 ); ?> /><?php echo $post_type->label; ?> <?php _e('Combined Post Categories
+                  <input type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][style]" value="1" <?php echo checked( $style, 1, 1 ); ?> /><?php echo $post_type->label; ?> <?php _e('Combined Post Categories
 and Individual Posts','KemiSitemap'); ?>
                 </label>
                 <?php
               }
               ?>
+
+            </div>
+            <div class="kemisitemap-includes">
+                <span>
+                  <strong><?php _e('Excluded ' ,'KemiSitemap'). $post_type->label; ?></strong>
+                </span>
+                <label>
+                  <input type="text" name="KemiSitemap_options[<?php echo $post_type->name; ?>][excludes]" value="<?php echo $this->options[$post_type->name]['excludes']; ?>" /> <?php _e('Please add comma separated list of Post IDs','KemiSitemap'); ?>
+                </label>
 
             </div>
           </div>
