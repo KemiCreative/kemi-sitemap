@@ -149,14 +149,16 @@ final class KemiSitemap_Admin{
         // echo '<pre>';
         // print_r($taxonomies);
         // echo '</pre>';
-        $checked = (empty($this->options[$post_type->name]['active']) ? 1 : $this->options[$post_type->name]);
+        $checked = ($this->options[$post_type->name]['active'] ? 1 : 0);
+        echo 'checked' . $checked. '<br/>';
+        echo 'active' . $this->options[$post_type->name]['active'];
         ?>
         <div class="kemisitemap-cpt-toggle">
           <div class="kemisitemap-cpt-title">
             <strong><?php echo $post_type->label; ?></strong>
-            <input class="kemisitemap-cpt-label" type="input" name="KemiSitemap_options[<?php echo $post_type->name; ?>][label]" value="" placeholder="<?php echo $post_type->label; ?>" />
+            <input class="kemisitemap-cpt-label" type="input" name="KemiSitemap_options[<?php echo $post_type->name; ?>][label]" value="<?php echo $this->options[$post_type->name]['label']; ?>" placeholder="<?php echo $post_type->label; ?>" />
             <label class="switch">
-              <input type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][active]" value="<?php echo $post_type->name; ?>" <?php echo checked( $checked, $post_type->name, 0 ); ?> />
+              <input type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][active]" value="<?php echo $checked; ?>" <?php echo checked( $checked, $this->options[$post_type->name]['active'], 1 ); ?> />
               <span class="slider round"></span>
             </label>
           </div><!-- Rounded switch -->
