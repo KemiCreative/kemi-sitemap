@@ -44,11 +44,11 @@ const $value = {
 
 (function($){
   $(document).ready(() => {
-  	
-  	const cpts = document.getElementsByClassName('KemiSitemap-cpt');
+
+  	/*const cpts = document.getElementsByClassName('KemiSitemap-cpt');
   	const input = document.querySelector('#testing');
   	let output = [];
-  	
+
   	for(let i = 0; i < cpts.length; i++){
   		let value = {};
   		let checkbox = cpts[i].querySelector('input[type=checkbox]');
@@ -61,7 +61,7 @@ const $value = {
 
   		//value.includes.taxonomies = checkbox.getAttribute('taxonomy');
 
-  		output.push(value);
+  		output.push(value);*/
   	}
 
   	console.log(output);
