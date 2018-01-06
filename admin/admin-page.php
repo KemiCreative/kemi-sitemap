@@ -150,13 +150,14 @@ final class KemiSitemap_Admin{
         // print_r($taxonomies);
         // echo '</pre>';
         $checked = (empty($this->options[$post_type->name]['active']) ? 0 : 1);
+        $label = ( empty($this->options[$post_type->name]['label']) ? $post_type->label : $this->options[$post_type->name]['label']);
         ?>
         <div class="kemisitemap-cpt-toggle">
           <div class="kemisitemap-cpt-title">
             <strong><?php echo $post_type->label; ?></strong>
-            <input class="kemisitemap-cpt-label" type="input" name="KemiSitemap_options[<?php echo $post_type->name; ?>][label]" value="<?php echo $this->options[$post_type->name]['label']; ?>" placeholder="<?php echo $post_type->label; ?>" />
+            <input class="kemisitemap-cpt-label" type="input" name="KemiSitemap_options[<?php echo $post_type->name; ?>][label]" value="<?php echo $label; ?>" placeholder="<?php echo $label; ?>" />
             <label class="switch">
-              <input type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][active]" value="1" <?php echo checked( $checked, 1, 1 ); ?> />
+              <input class="kemisitemap-cpt-active" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][active]" value="1" <?php echo checked( $checked, 1, 1 ); ?> />
               <span class="slider round"></span>
             </label>
           </div><!-- Rounded switch -->
@@ -171,8 +172,8 @@ final class KemiSitemap_Admin{
                 $category = (empty($this->options[$post_type->name]['cat']) ? 0 : 1);
                 $ind = (empty($this->options[$post_type->name]['ind']) ? 0 : 1);
                  ?>
-                <label><input type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][cat]" value="1" <?php echo checked( $category, 1, 1 ); ?> /><?php echo $post_type->label; ?> <?php _e('Categories','KemiSitemap'); ?></label>
-                <label><input type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][ind]" value="1" <?php echo checked( $ind, 1, 1 ); ?> /><?php _e('Individual ','KemiSitemap'); ?> <?php echo $post_type->label; ?> </label>
+                <label><input class="kemisitemap-cpt-cat" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][cat]" value="1" <?php echo checked( $category, 1, 1 ); ?> /><?php echo $post_type->label; ?> <?php _e('Categories','KemiSitemap'); ?></label>
+                <label><input class="kemisitemap-cpt-ind" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][ind]" value="1" <?php echo checked( $ind, 1, 1 ); ?> /><?php _e('Individual ','KemiSitemap'); ?> <?php echo $post_type->label; ?> </label>
                 <?php
               }
               ?>
@@ -186,7 +187,7 @@ final class KemiSitemap_Admin{
                   <strong><?php _e('List Style','KemiSitemap'); ?></strong>
                 </span>
                 <label>
-                  <input type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][style]" value="1" <?php echo checked( $style, 1, 1 ); ?> /><?php echo $post_type->label; ?> <?php _e('Combined Post Categories
+                  <input class="kemisitemap-cpt-style" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][style]" value="1" <?php echo checked( $style, 1, 1 ); ?> /><?php echo $post_type->label; ?> <?php _e('Combined Post Categories
 and Individual Posts','KemiSitemap'); ?>
                 </label>
                 <?php
@@ -199,7 +200,7 @@ and Individual Posts','KemiSitemap'); ?>
                   <strong><?php _e('Excluded ' ,'KemiSitemap'). $post_type->label; ?></strong>
                 </span>
                 <label>
-                  <input type="text" name="KemiSitemap_options[<?php echo $post_type->name; ?>][excludes]" value="<?php echo $this->options[$post_type->name]['excludes']; ?>" /> <?php _e('Please add comma separated list of Post IDs','KemiSitemap'); ?>
+                  <input class="kemisitemap-cpt-excludes" type="text" name="KemiSitemap_options[<?php echo $post_type->name; ?>][excludes]" value="<?php echo $this->options[$post_type->name]['excludes']; ?>" /> <?php _e('Please add comma separated list of Post IDs','KemiSitemap'); ?>
                 </label>
 
             </div>
@@ -210,7 +211,6 @@ and Individual Posts','KemiSitemap'); ?>
       echo '<pre>';
       print_r($data);
       echo '</pre>';
-      echo '<input type="hidden" name="kemisitemap_options[data]" id="testing" value="<?php $this->options["data"]; ?>" />';
     echo '</div>';
 
     submit_button();
