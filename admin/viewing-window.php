@@ -50,12 +50,19 @@ final class KemiSitemap_Viewing_Window{
     if($this->KemiSitemap_is_admin_page()){
       $this->args = array(
         'title' => '<h1>Sitemap Page</h1>',
-        'paragraph' => '<p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum <br/>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum <br />Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem …</p>'
+        'paragraph' => '<p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum <br/>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum <br />Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem …</p>',
+        'cpts' => array()
       );
+      foreach($this->options as $key => $value){
+        if($value['active']){
+          array_push($this->args['cpts'], $key);
+        }
+      }
     } else {
       $this->args = array(
         'title' => false,
-        'paragraph' => false
+        'paragraph' => false,
+        'cpts' => array()
       );
     }
   }
@@ -69,7 +76,22 @@ final class KemiSitemap_Viewing_Window{
     $this->output .= '<div id="kemi-sitemap">';
     $this->output .= $this->args['title'];
     $this->output .= $this->args['paragraph'];
-    $this->output .= '';
+
+    foreach($this->args['cpts'] as $post_type){
+      $this->output .= '<div class="kemi-sitemap-pt-block">';
+      // $this->output .= $post_type;
+
+      $pt = new WP_Query( array('post_type' => $post_type, 'showposts' => 5) );
+      if ( $pt->have_posts() ) {
+      	while ( $pt->have_posts() ) { $pt->the_post();
+      		$this->output .= '<div>' . get_the_title() . '</div>';
+      	}
+      	wp_reset_postdata();
+      }
+
+      $this->output .= '</div>';
+    }
+
     $this->output .= '';
     $this->output .= '</div>';
 

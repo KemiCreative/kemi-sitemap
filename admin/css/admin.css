@@ -8,7 +8,16 @@
 }
 
 .kemisitemap-includes span, .kemisitemap-includes label{
-  display: block; 
+  display: block;
+}
+
+.kemi-sitemap-pt-block {
+  display: inline-block;
+  width: 200px;
+  margin-right: 20px;
+  padding: 25px 30px;
+  border: 1px solid #000;
+  vertical-align: top;
 }
 
 
