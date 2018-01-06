@@ -131,6 +131,11 @@ final class KemiSitemap_Admin{
     // print_r($wp_taxonomies);
     // echo '</pre>';
 
+    $data = json_decode($this->options['data']);
+    echo '<pre>';
+    print_r($data);
+    echo '</pre>';
+
     echo '<div class="KemiSitemap_cpts">';
       echo '<h2>Current Custom Post Types</h2>';
       echo '<p class="KemiSitemap-cpts-errors" class="description"></p>';
@@ -155,7 +160,7 @@ final class KemiSitemap_Admin{
         <?php
       }
 
-      echo '<input type="hidden" name="KemiSitemap_options[data]" id="testing" value="" />';
+      echo '<input type="hidden" name="KemiSitemap_options[data]" id="testing" value="<?php $this->options["data"]; ?>" />';
     echo '</div>';
 
     submit_button();
