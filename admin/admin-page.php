@@ -26,6 +26,9 @@ final class KemiSitemap_Admin{
    */
   public function KemiSitemap_admin_styles() {
   	// jQuery confirm.
+    // wp_enqueue_script('jQuery');
+    wp_enqueue_script('data-layout', KEMISITEMAP_PLUGIN_URL. 'data-layout.js',  array('jquery') );
+
   	wp_enqueue_style(
   		'admin_page',
   		KEMISITEMAP_PLUGIN_URL . 'admin/css/admin.css',
@@ -123,22 +126,35 @@ final class KemiSitemap_Admin{
 
   public function KemiSitemap_cpt_output(){
     $post_types = get_post_types('', 'object');
+    // global $wp_taxonomies;
+    // echo '<pre>';
+    // print_r($wp_taxonomies);
+    // echo '</pre>';
 
     echo '<div class="KemiSitemap_cpts">';
       echo '<h2>Current Custom Post Types</h2>';
       echo '<p class="KemiSitemap-cpts-errors" class="description"></p>';
       foreach($post_types as $post_type){
-        echo '<div class="KemiSitemap-cpt">';
-          echo '<div class="KemiSitemap-cpt-title">' . $post_type->label . '</div><!-- Rounded switch -->
-          <label class="switch">
-            <input type="checkbox" name="KemiSitemap_options['.$post_type->name.']" value="'.$post_type->name.'">
-            <span class="slider round"></span>
-          </label>';
-        echo '</div>';
-      }
-    echo '</div>';
+        // print_r($post_type);
 
-    echo '<input type="hidden" name="kc_role_lockdown_options[custom_post_types]" id="kc_cpt_settings" value="' .  $cpts_input . '" />';
+        $taxonomies = get_object_taxonomies($post_type->name);
+        // echo '<pre>';
+        // print_r($taxonomies);
+        // echo '</pre>';
+        $checked = (empty($this->options[$post_type->name]) ? 1 : $this->options[$post_type->name]);
+        ?>
+        <div class="KemiSitemap-cpt">
+          <div class="KemiSitemap-cpt-title"><?php echo $post_type->label; ?></div><!-- Rounded switch -->
+          <label class="switch">
+            <input type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>]" value="<?php echo $post_type->name; ?>" taxonomy="<?php echo $post_type->taxonomies; ?>" <?php echo checked( $checked, $post_type->name, 0 ); ?> />
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <?php
+      }
+
+      echo '<input type="hidden" name="KemiSitemap_options[data]" id="testing" value="" />';
+    echo '</div>';
 
     submit_button();
   }
