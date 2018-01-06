@@ -55,7 +55,7 @@ final class KemiSitemap_Viewing_Window{
       );
       foreach($this->options as $key => $value){
         if($value['active']){
-          array_push($this->args['cpts'], $key);
+          array_push($this->args['cpts'], array($key, $value['label']));
         }
       }
     } else {
@@ -79,9 +79,11 @@ final class KemiSitemap_Viewing_Window{
 
     foreach($this->args['cpts'] as $post_type){
       $this->output .= '<div class="kemi-sitemap-pt-block">';
-      // $this->output .= $post_type;
+      //return $post_type[0];
+      $this->output .= '<h3>' . $post_type[1] . '</h3>';
 
-      $pt = new WP_Query( array('post_type' => $post_type, 'showposts' => 5) );
+
+      $pt = new WP_Query( array('post_type' => $post_type[0], 'showposts' => 5) );
       if ( $pt->have_posts() ) {
       	while ( $pt->have_posts() ) { $pt->the_post();
       		$this->output .= '<div>' . get_the_title() . '</div>';
