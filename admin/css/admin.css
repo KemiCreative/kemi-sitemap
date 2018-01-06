@@ -1,6 +1,17 @@
-.settings_page_kemi-sitemap table.form-table th{
-  display: none !important; 
+.settings_page_kemi-sitemap #wpbody-content table.form-table th{
+  display: none;
 }
+.settings_page_kemi-sitemap #wpbody-content table.form-table td .kemisitemap_cpts .kemisitemap-cpt-toggle{
+  padding:10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.kemisitemap-includes span, .kemisitemap-includes label{
+  display: block; 
+}
+
+
 
 /* The switch - the box around the slider */
 .switch {

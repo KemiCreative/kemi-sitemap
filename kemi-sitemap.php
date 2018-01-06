@@ -126,6 +126,10 @@ if ( class_exists( 'KemiSitemap' ) ) {
 				define( 'KEMISITEMAP_PLUGIN_FILE', __FILE__ );
 			}
 
+			if( ! defined('KEMISITEMAP_SLUG') ){
+				define( 'KEMISITEMAP_SLUG', 'kemi-sitemap' );
+			}
+
     }
     /**
 		 * Include files.
