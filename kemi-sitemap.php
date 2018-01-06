@@ -134,6 +134,7 @@ if ( class_exists( 'KemiSitemap' ) ) {
 		 */
 		private function includes() {
       if ( is_admin() ) {
+				require_once KEMISITEMAP_PLUGIN_DIR . 'admin/viewing-window.php';
         require_once KEMISITEMAP_PLUGIN_DIR . 'admin/admin-page.php';
       }
     }

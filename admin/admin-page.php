@@ -174,6 +174,8 @@ final class KemiSitemap_Admin{
   		settings_fields( 'KemiSitemap_group' );
   		do_settings_sections( 'KemiSitemap_group' );
 
+      $main = new KemiSitemap_Viewing_Window;
+      echo $main;
 
   		?>
 
