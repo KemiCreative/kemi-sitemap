@@ -31,13 +31,9 @@ const $value = [
 (function($){
   $(document).ready(() => {
 
-<<<<<<< HEAD
-  	/*const cpts = document.getElementsByClassName('KemiSitemap-cpt');
-=======
   	// const cpts = document.querySelectorAll('.kemiSitemap-cpt');
   	// const checkbox = cpts.querySelector('input[type=checkbox]');
 		// const label = cpts.querySelector('.kemiSitemap-cpt-label');
->>>>>>> 9674fb65042736c0e71abb2b636285d4d06d186c
   	const input = document.querySelector('#testing');
 
 		input.value = JSON.stringify($value);
