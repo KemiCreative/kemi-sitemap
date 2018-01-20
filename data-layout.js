@@ -45,12 +45,40 @@ const $value = [
 				if(event.target.checked){
 					// Show the CPT in the Viewing Window
 					console.log('checked');
+          console.log(event.target.parentNode.parentNode.parentNode.getAttribute('post-type'));
+          let key = event.target.parentNode.parentNode.parentNode.getAttribute('post-type');
+          let label = event.target.parentNode.parentNode.childNodes[3];
+          console.log(label.value);
+          ajaxToggleCPT(key, label);
 				} else {
 					// Remove the CPT from the Viewing Window
 					console.log('unchecked');
 				}
 			}
 		}
+
+    /*
+		 * Description: Function to run AJAX that Toggles the CPT in Viewing Window
+		 */
+    const ajaxToggleCPT = (key, label) => {
+      console.log('test');
+      $.ajax({
+    		type: "POST",
+    		dataType: 'html',
+    		data: {
+      		action: 'KemiSitemap_template_block_setup',
+          key: key,
+          post_type: {
+            'label':label,
+          },
+        },
+    		url: kemiSitemapLocalScript.ajax_url,
+    		success: function (response) {
+          console.log(response);
+          console.log('this is a test');
+    		}
+    	});
+    }
 
 		/*
 		 * Description: Function to set the current label value before change
