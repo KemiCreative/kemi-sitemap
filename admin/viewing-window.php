@@ -39,6 +39,8 @@ final class KemiSitemap_Viewing_Window{
     add_action('admin_init', array( $this, 'KemiSitemap_args_setup') );
     add_shortcode('kemi-sitemap', array( $this, 'KemiSitemap_shortcode') );
 
+    add_action( 'wp_ajax_nopriv_KemiSitemap_template_block_setup', array( $this, 'AJAX_function' ) );
+    add_action( 'wp_ajax_KemiSitemap_template_block_setup', array( $this, 'AJAX_function' ) );
 
   }
 
@@ -91,21 +93,9 @@ final class KemiSitemap_Viewing_Window{
     $this->output .= '<div id="kemi-sitemap">';
     $this->output .= $this->args['title'];
     $this->output .= $this->args['paragraph'];
-    print_r($this->args['cpts']);
+    // print_r($this->args['cpts']);
     foreach($this->args['cpts'] as $key => $post_type){
-      $this->output .= '<div class="kemi-sitemap-pt-block">';
-      //return $post_type[0];
-      $this->output .= '<h3>' . $post_type['label'] . '</h3>';
-
-      $pt = new WP_Query( array('post_type' => $key, 'showposts' => $showpost) );
-      if ( $pt->have_posts() ) {
-      	while ( $pt->have_posts() ) { $pt->the_post();
-      		$this->output .= '<div><a href="'.get_the_permalink().'">' . get_the_title() . '</a></div>';
-      	}
-      	wp_reset_postdata();
-      }
-
-      $this->output .= '</div>';
+      $this->KemiSitemap_template_block($key, $post_type);
     }
 
     $this->output .= '';
@@ -115,6 +105,48 @@ final class KemiSitemap_Viewing_Window{
 
     $this->output .= '';
     return $this->output;
+  }
+  public function KemiSitemap_template_block($key, $post_type, $ajax = false) {
+    $output = '';
+
+    // echo '<br>' . print_r($key, 1) . '<br>';
+    // echo print_r($post_type, 1) . '<br>';
+
+    $output .= '<div class="kemi-sitemap-pt-block">';
+      $output .= '<h3>' . $post_type['label'] . '</h3>';
+
+      $pt = new WP_Query( array('post_type' => $key, 'showposts' => 3 /* USED TO BE $showpost */) );
+      if ( $pt->have_posts() ) {
+        while ( $pt->have_posts() ) { $pt->the_post();
+          $output .= '<div><a href="'.get_the_permalink().'">' . get_the_title() . '</a></div>';
+        }
+        wp_reset_postdata();
+      }
+
+    $output .= '</div>';
+
+    if($ajax){
+      echo $output;
+      die();
+    } else {
+      $this->output = $output;
+    }
+  }
+
+  public function testing_only($key, $post_type) {
+    // echo 'this is michael';
+    // echo $key;
+    // echo $post_type;
+    // print_r($post_type);
+
+    echo $post_type['label'];
+    die();
+  }
+
+  public function AJAX_function() {
+    $key = $_POST['key'];
+    $post_type = $_POST['post_type'];
+    $this->KemiSitemap_template_block($key, $post_type, true);
   }
 
 }

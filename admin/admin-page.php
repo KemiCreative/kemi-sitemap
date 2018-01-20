@@ -38,6 +38,10 @@ final class KemiSitemap_Admin{
     		array(),
     		KEMISITEMAP_VERSION
     	);
+
+      wp_localize_script( 'data-layout', 'kemiSitemapLocalScript', array(
+    		'ajax_url' => admin_url( 'admin-ajax.php' )
+    	));
     }
   }
 
@@ -72,6 +76,7 @@ final class KemiSitemap_Admin{
     add_action( 'admin_init', array( $this, 'KemiSitemap_settings' ) );
     add_action( 'admin_init', array( $this, 'KemiSitemap_settings_fields' ) );
     add_filter( 'admin_body_class', array( $this, 'KemiSitemap_admin_body_class' ), 10, 1 );
+
   }
 
   /**
@@ -149,10 +154,15 @@ final class KemiSitemap_Admin{
         // echo '<pre>';
         // print_r($taxonomies);
         // echo '</pre>';
+
+        // echo '<pre>';
+        // print_r($post_type->name);
+        // echo '</pre>';
+
         $checked = (empty($this->options[$post_type->name]['active']) ? 0 : 1);
         $label = ( empty($this->options[$post_type->name]['label']) ? $post_type->label : $this->options[$post_type->name]['label']);
         ?>
-        <div class="kemisitemap-cpt-toggle">
+        <div class="kemisitemap-cpt-toggle" post-type="<?php echo $post_type->name; ?>">
           <div class="kemisitemap-cpt-title">
             <strong><?php echo $post_type->label; ?></strong>
             <input class="kemisitemap-cpt-label" type="input" name="KemiSitemap_options[<?php echo $post_type->name; ?>][label]" value="<?php echo $label; ?>" placeholder="<?php echo $label; ?>" />
