@@ -6,9 +6,27 @@
 .settings_page_kemi-sitemap #wpbody-content table.form-table th {
   display: none; }
 
-.kemisitemap-includes label,
-.kemisitemap-includes span {
-  display: block; }
+.kemisitemap-cpt-title {
+  margin-bottom: 27px; }
+
+.kemisitemap-cpt-content {
+  display: flex; }
+
+.kemisitemap-variables {
+  margin-right: 80px; }
+  .kemisitemap-variables label, .kemisitemap-variables span {
+    display: block; }
+  .kemisitemap-variables .kemisitemap-variables-title {
+    margin-bottom: 20px; }
+  .kemisitemap-variables .kemi-excludes-label {
+    font-weight: 700; }
+  .kemisitemap-variables .kemisitemap-note {
+    color: #666;
+    font-size: 13px;
+    font-style: italic; }
+
+.kemisitemap-excludes {
+  margin-right: 0px; }
 
 .kemi-sitemap-pt-block {
   display: inline-block;

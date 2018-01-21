@@ -11,9 +11,33 @@
   }
 }
 
-.kemisitemap-includes label,
-.kemisitemap-includes span {
-  display: block;
+.kemisitemap-cpt-title {
+  margin-bottom: 27px;
+}
+
+.kemisitemap-cpt-content {
+  display: flex;
+}
+
+.kemisitemap-variables {
+  margin-right: 80px;
+  label, span {
+    display: block;
+  }
+  .kemisitemap-variables-title {
+    margin-bottom: 20px;
+  }
+  .kemi-excludes-label {
+    font-weight: 700;
+  }
+  .kemisitemap-note {
+    color: #666;
+    font-size: 13px;
+    font-style: italic;
+  }
+}
+.kemisitemap-excludes {
+  margin-right: 0px;
 }
 
 .kemi-sitemap-pt-block {
