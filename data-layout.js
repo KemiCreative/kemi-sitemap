@@ -42,11 +42,11 @@ const $value = [
      */
     const toggleCPT = (event) => {
       if (event.target.parentNode.className == 'switch') {
+        let key = event.target.parentNode.parentNode.parentNode.getAttribute('post-type');
         if (event.target.checked) {
           // Show the CPT in the Viewing Window
           //console.log('checked');
           //console.log(event.target.parentNode.parentNode.parentNode.getAttribute('post-type'));
-          let key = event.target.parentNode.parentNode.parentNode.getAttribute('post-type');
           let label = event.target.parentNode.parentNode.childNodes[3];
           //console.log(label.value);
           console.log("key " + key + " and " + label.value);
@@ -54,6 +54,7 @@ const $value = [
         } else {
           // Remove the CPT from the Viewing Window
           console.log('unchecked');
+          $('#kemi-sitemap').find('[post-type="' + key + '"]').remove();
         }
       }
     }
@@ -99,6 +100,10 @@ const $value = [
     const labelChange = (event) => {
       // Find the VIEWING WINDOW CPT based on labelPrev variable
       // 'VIEWING WINDOW CPT' = event.target.value;
+      if (event.target.value == '') {
+        console.log('mike is gay');
+        event.target.value = event.target.placeholder;
+      }
       for (let i = 0; i < cpt_blocks.length; i++) {
         let block = cpt_blocks[i].querySelector('h3');
         if (block.textContent == labelPrev) {

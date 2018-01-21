@@ -118,7 +118,7 @@ final class KemiSitemap_Viewing_Window
         // echo print_r($post_type, 1) . '<br>';
 
         $output .= '<div post-type="'.$key.'" class="kemi-sitemap-pt-block">';
-        $output .= '<h3>' . $post_type['label'] . '</h3>'.$key;
+        $output .= '<h3>' . $post_type['label'] . '</h3>';
 
         $pt = new WP_Query(array('post_type' => $key, 'showposts' => 3 /* USED TO BE $showpost */));
         if ($pt->have_posts()) {

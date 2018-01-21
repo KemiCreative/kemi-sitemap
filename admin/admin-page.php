@@ -237,8 +237,15 @@ and Individual Posts', 'KemiSitemap'); ?>
 
   	</form>
   	<?php
-
-    echo $this->main -> KemiSitemap_template();
+  $pt = new WP_Query(array('post_type' => 'tribe_events', 'showposts' => 3, 'post_status'=>'publish', /* USED TO BE $showpost */));
+        if ($pt->have_posts()) {
+            while ($pt->have_posts()) {
+                $pt->the_post();
+                echo '<div><a href="'.get_the_permalink().'">' . get_the_title() . '</a></div>';
+            }
+            wp_reset_postdata();
+        }
+        echo $this->main -> KemiSitemap_template();
     }
 }
 
