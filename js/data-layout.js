@@ -101,6 +101,10 @@ const $value = [
     const labelChange = (event) => {
       // Find the VIEWING WINDOW CPT based on labelPrev variable
       // 'VIEWING WINDOW CPT' = event.target.value;
+      if (event.target.value == '') {
+        console.log('mike is gay');
+        event.target.value = event.target.placeholder;
+      }
       for (let i = 0; i < cpt_blocks.length; i++) {
         let block = cpt_blocks[i].querySelector('h3');
         if (block.textContent == labelPrev) {
