@@ -102,7 +102,6 @@ const $value = [
       // Find the VIEWING WINDOW CPT based on labelPrev variable
       // 'VIEWING WINDOW CPT' = event.target.value;
       if (event.target.value == '') {
-        console.log('mike is gay');
         event.target.value = event.target.placeholder;
       }
       for (let i = 0; i < cpt_blocks.length; i++) {
