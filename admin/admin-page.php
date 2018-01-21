@@ -33,7 +33,7 @@ final class KemiSitemap_Admin
         // jQuery confirm.
         // wp_enqueue_script('jQuery');
         if ($hook_suffix == 'settings_page_'.KEMISITEMAP_SLUG) {
-            wp_enqueue_script('data-layout', KEMISITEMAP_PLUGIN_URL . 'dist/scripts.js', array('jquery'));
+            wp_enqueue_script('kemisitemap-scripts', KEMISITEMAP_PLUGIN_URL . 'dist/scripts.js', array('jquery'));
 
             wp_enqueue_style(
             'admin_page',
@@ -174,10 +174,9 @@ final class KemiSitemap_Admin
               </label>
             </div><!-- Rounded switch -->
             <div class="kemisitemap-cpt-content">
-              <div class="kemisitemap-includes">
-                <?php if (!empty($taxonomies)) {
-                ?>
-                  <span>
+              <?php if (!empty($taxonomies)) { ?>
+                <div class="kemisitemap-variables" variable="includes">
+                  <span class="kemisitemap-variables-title">
                     <strong><?php _e('Includes', 'KemiSitemap'); ?></strong>
                   </span>
                   <?php
@@ -193,28 +192,21 @@ final class KemiSitemap_Admin
 
                   <?php $ind = (empty($this->options[$post_type->name]['ind']) ? 0 : 1); ?>
                   <label><input class="kemisitemap-cpt-ind" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][ind]" value="1" <?php echo checked($ind, 1, 1); ?> /><?php _e('Individual ', 'KemiSitemap'); ?> <?php echo $post_type->label; ?> </label>
-                  <?php
-            } ?>
-              </div>
-              <div class="kemisitemap-list-style">
-                <?php if (!empty($taxonomies)) {
-                $style = (empty($this->options[$post_type->name]['style']) ? 0 : 1); ?>
-                  <span>
+                </div>
+              <?php } ?>
+              <?php if (!empty($taxonomies)) { ?>
+                <div class="kemisitemap-variables" variable="list-style">
+                  <?php $style = (empty($this->options[$post_type->name]['style']) ? 0 : 1); ?>
+                  <span class="kemisitemap-variables-title">
                     <strong><?php _e('List Style', 'KemiSitemap'); ?></strong>
                   </span>
-                  <label>
-                    <input class="kemisitemap-cpt-style" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][style]" value="1" <?php echo checked($style, 1, 1); ?> /><?php echo $post_type->label; ?> <?php _e('Combined Post Categories and Individual Posts', 'KemiSitemap'); ?>
-                  </label>
-                  <?php
-            } ?>
-              </div>
-              <div class="kemisitemap-excludes">
-                <span>
-                  <strong><?php _e('Excluded ', 'KemiSitemap'). $post_type->label; ?></strong>
-                </span>
-                <label>
-                  <input class="kemisitemap-cpt-excludes" type="text" name="KemiSitemap_options[<?php echo $post_type->name; ?>][excludes]" value="<?php echo $this->options[$post_type->name]['excludes']; ?>" /> <?php _e('Please add comma separated list of Post IDs', 'KemiSitemap'); ?>
-                </label>
+                  <label><input class="kemisitemap-cpt-style" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][style]" value="1" <?php echo checked($style, 1, 1); ?> /><?php _e('Combined Post Categories and Individual Posts', 'KemiSitemap'); ?></label>
+                </div>
+              <?php } ?>
+              <div class="kemisitemap-variables" variable="excludes">
+                <label for="kemi-<?php echo $post_type->name; ?>-excludes" class="kemi-excludes-label kemisitemap-variables-title"><?php _e('Excluded '. $post_type->label, 'KemiSitemap'); ?></label>
+                <input id="kemi-<?php echo $post_type->name; ?>-excludes" class="kemisitemap-cpt-excludes" type="text" name="KemiSitemap_options[<?php echo $post_type->name; ?>][excludes]" value="<?php echo $this->options[$post_type->name]['excludes']; ?>" />
+                <span class="kemisitemap-note"><?php _e('Please add comma separated list of Post IDs', 'KemiSitemap'); ?></span>
               </div>
             </div>
           </div>
