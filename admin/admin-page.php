@@ -57,7 +57,7 @@ final class KemiSitemap_Admin
     *
     * @return string
     */
-    private function KemiSitemap_admin_body_class($classes)
+    public function KemiSitemap_admin_body_class($classes)
     {
         if (! $this->KemiSitemap_is_admin_page()) {
             return $classes;
