@@ -52,35 +52,35 @@ final class KemiSitemap_Viewing_Window
         $this->options = get_option('KemiSitemap_options');
         // return '<pre>'. print_r($this->options, false) . '</pre>';
         if ($this->KemiSitemap_is_admin_page()) {
-            $this->args = array(
-        'title' => '<h1>Sitemap Page</h1>',
-        'paragraph' => '<p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum <br/>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum <br />Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem …</p>',
-        'cpts' => array(),
-      );
-            foreach ($this->options as $key => $value) {
-                if ($value['active']) {
-                    //array_push($this->args['cpts'], array($key, 'label' => $value['label']));
-                    $this->args['cpts'][$key]['label'] = $value['label'];
-                    if ($value['cat']) {
-                        $this->args['cpts'][$key]['cat'] = $value['cat'];
-                    }
-                    if ($value['ind']) {
-                        $this->args['cpts'][$key]['ind'] = $value['ind'];
-                    }
-                    if ($value['style']) {
-                        $this->args['cpts'][$key]['style'] = $value['style'];
-                    }
-                    if ($value['excludes']) {
-                        $this->args['cpts'][$key]['excludes'] = $value['excludes'];
-                    }
-                }
+          $this->args = array(
+            'title' => '<h1>Sitemap Page</h1>',
+            'paragraph' => '<p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum <br/>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum <br />Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem …</p>',
+            'cpts' => array(),
+          );
+          foreach ($this->options as $key => $value) {
+            if ($value['active']) {
+              //array_push($this->args['cpts'], array($key, 'label' => $value['label']));
+              $this->args['cpts'][$key]['label'] = $value['label'];
+              if ($value['cat']) {
+                $this->args['cpts'][$key]['cat'] = $value['cat'];
+              }
+              if ($value['ind']) {
+                $this->args['cpts'][$key]['ind'] = $value['ind'];
+              }
+              if ($value['style']) {
+                $this->args['cpts'][$key]['style'] = $value['style'];
+              }
+              if ($value['excludes']) {
+                $this->args['cpts'][$key]['excludes'] = $value['excludes'];
+              }
             }
+          }
         } else {
-            $this->args = array(
-        'title' => false,
-        'paragraph' => false,
-        'cpts' => array()
-      );
+          $this->args = array(
+            'title' => false,
+            'paragraph' => false,
+            'cpts' => array()
+          );
         }
     }
 
@@ -109,46 +109,47 @@ final class KemiSitemap_Viewing_Window
     }
     public function KemiSitemap_template_block($key, $post_type, $ajax = false)
     {
+      if ($this->KemiSitemap_is_admin_page()) {
+          $showposts = 5;
+      } else {
+          $showposts = -1;
+      }
         //$output = '';
-        $excludes = array();
-        // echo '<br>' . print_r($key, 1) . '<br>';
-        // echo print_r($post_type, 1) . '<br>';
-        if ($this->KemiSitemap_is_admin_page()) {
-            $showposts = 5;
-        } else {
-            $showposts = -1;
-        }
-        if ($this->args['cpts'][$key]['excludes']) {
-            $excludes = str_replace(' ', '', $this->args['cpts'][$key]['excludes']);
-            $excludes = explode(',', $excludes);
-        }
-        
-        $output .= '<div post-type="'.$key.'" class="kemi-sitemap-pt-block">';
-        $output .= '<h3>' . $post_type['label'] . '</h3>';
-        print_r($excludes);
-        $pt = new WP_Query(
-          array(
-            'post_type' => $key,
-            'showposts' => $showposts,
-            'post__not_in' => $excludes,
-          )
-        );
-        if ($pt->have_posts()) {
-            while ($pt->have_posts()) {
-                $pt->the_post();
-                $output .= '<div><a href="'.get_the_permalink().'">' . get_the_title() . '</a></div>';
-            }
-            wp_reset_postdata();
-        }
+      /* Set up excludes */
+      $excludes = array();
+      if ($this->args['cpts'][$key]['excludes']) {
+          $excludes = str_replace(' ', '', $this->args['cpts'][$key]['excludes']);
+          $excludes = explode(',', $excludes);
+      }
 
-        $output .= '</div>';
 
-        if ($ajax) {
-            echo $output;
-            die();
-        } else {
-            $this->block .= $output;
-        }
+
+      $output .= '<div post-type="'.$key.'" class="kemi-sitemap-pt-block">';
+      $output .= '<h3>' . $post_type['label'] . '</h3>';
+      print_r($excludes);
+      $pt = new WP_Query(
+        array(
+          'post_type' => $key,
+          'showposts' => $showposts,
+          'post__not_in' => $excludes,
+        )
+      );
+      if ($pt->have_posts()) {
+          while ($pt->have_posts()) {
+              $pt->the_post();
+              $output .= '<div><a href="'.get_the_permalink().'">' . get_the_title() . '</a></div>';
+          }
+          wp_reset_postdata();
+      }
+
+      $output .= '</div>';
+
+      if ($ajax) {
+          echo $output;
+          die();
+      } else {
+          $this->block .= $output;
+      }
     }
 
     public function testing_only($key, $post_type)
