@@ -33,17 +33,17 @@ final class KemiSitemap_Admin
         // jQuery confirm.
         // wp_enqueue_script('jQuery');
         if ($hook_suffix == 'settings_page_'.KEMISITEMAP_SLUG) {
-            wp_enqueue_script('kemisitemap-scripts', KEMISITEMAP_PLUGIN_URL . 'dist/scripts.js', array('jquery'));
+          wp_enqueue_script('kemisitemap-scripts', KEMISITEMAP_PLUGIN_URL . 'dist/scripts.js', array('jquery'));
 
-            wp_enqueue_style(
-            'admin_page',
-            KEMISITEMAP_PLUGIN_URL . 'dist/app.css',
-            array(),
-            KEMISITEMAP_VERSION
+          wp_enqueue_style(
+          'admin_page',
+          KEMISITEMAP_PLUGIN_URL . 'dist/app.css',
+          array(),
+          KEMISITEMAP_VERSION
         );
 
-            wp_localize_script('data-layout', 'kemiSitemapLocalScript', array(
-            'ajax_url' => admin_url('admin-ajax.php')
+        wp_localize_script('kemisitemap-scripts', 'kemiSitemapLocalScript', array(
+          'ajax_url' => admin_url('admin-ajax.php')
         ));
         }
     }
@@ -59,11 +59,11 @@ final class KemiSitemap_Admin
     */
     public function KemiSitemap_admin_body_class($classes)
     {
-        if (! $this->KemiSitemap_is_admin_page()) {
-            return $classes;
-        }
+      if (! $this->KemiSitemap_is_admin_page()) {
+        return $classes;
+      }
 
-        return "$classes kemisitemap-admin-page";
+      return "$classes kemisitemap-admin-page";
     }
 
 
@@ -101,16 +101,16 @@ final class KemiSitemap_Admin
     public function KemiSitemap_settings()
     {
 
-    // Register new settings for "KemiSitemap_options" page
-        register_setting('KemiSitemap_group', 'KemiSitemap_options');
+      // Register new settings for "KemiSitemap_options" page
+      register_setting('KemiSitemap_group', 'KemiSitemap_options');
 
-        // Register a new section in the "KemiSitemap_options" page
-        add_settings_section(
-      'KemiSitemap_options',
-      __('Kemi Sitemap', 'KemiSitemap'),
-      array( $this, 'KemiSitemap_description' ),
-      'KemiSitemap_group'
-    );
+      // Register a new section in the "KemiSitemap_options" page
+      add_settings_section(
+        'KemiSitemap_options',
+        __('Kemi Sitemap', 'KemiSitemap'),
+        array( $this, 'KemiSitemap_description' ),
+        'KemiSitemap_group'
+      );
     }
 
     /**
@@ -118,7 +118,7 @@ final class KemiSitemap_Admin
      */
     public function KemiSitemap_description()
     {
-        echo '<p>Kemi Sitemap Description</p>';
+      echo '<p>Kemi Sitemap Description</p>';
     }
 
     /**
@@ -126,15 +126,15 @@ final class KemiSitemap_Admin
      */
     public function KemiSitemap_settings_fields()
     {
-        // Section: KemiSitemap_section
-        add_settings_field(
-      'KemiSitemap_cpt',
-      __('', 'KemiSitemap'),
-      array( $this, 'KemiSitemap_cpt_output' ),
-      'KemiSitemap_group',
-      'KemiSitemap_options',
-      ''
-    );
+      // Section: KemiSitemap_section
+      add_settings_field(
+        'KemiSitemap_cpt',
+        __('', 'KemiSitemap'),
+        array( $this, 'KemiSitemap_cpt_output' ),
+        'KemiSitemap_group',
+        'KemiSitemap_options',
+        ''
+      );
     }
 
     public function KemiSitemap_cpt_output()
@@ -170,7 +170,7 @@ final class KemiSitemap_Admin
               <input class="kemisitemap-cpt-label" type="input" name="KemiSitemap_options[<?php echo $post_type->name; ?>][label]" value="<?php echo $label; ?>" placeholder="<?php echo $label; ?>" />
               <label class="switch">
                 <input class="kemisitemap-cpt-active" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][active]" value="1" <?php echo checked($checked, 1, 1); ?> />
-                <span class="slider round"></span>
+                <span class="slider"></span>
               </label>
             </div><!-- Rounded switch -->
             <div class="kemisitemap-cpt-content">
@@ -182,8 +182,8 @@ final class KemiSitemap_Admin
                   <?php
                   $category = (empty($this->options[$post_type->name]['cat']) ? 0 : 1);
                   $ind = (empty($this->options[$post_type->name]['ind']) ? 0 : 1); ?>
-                  <label><input class="kemisitemap-cpt-cat" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][cat]" value="1" <?php echo checked($category, 1, 1); ?> /><?php echo $post_type->label; ?> <?php _e('Categories', 'KemiSitemap'); ?></label>
-                  <label><input class="kemisitemap-cpt-ind" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][ind]" value="1" <?php echo checked($ind, 1, 1); ?> /><?php _e('Individual ', 'KemiSitemap'); ?> <?php echo $post_type->label; ?> </label>
+                  <label class="kemisitemap-variable-checkbox"><input class="kemisitemap-cpt-cat" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][cat]" value="1" <?php echo checked($category, 1, 1); ?> /><?php echo $post_type->label; ?> <?php _e('Categories', 'KemiSitemap'); ?></label>
+                  <label class="kemisitemap-variable-checkbox"><input class="kemisitemap-cpt-ind" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][ind]" value="1" <?php echo checked($ind, 1, 1); ?> /><?php _e('Individual ', 'KemiSitemap'); ?> <?php echo $post_type->label; ?> </label>
                 </div>
               <?php } ?>
               <?php if (!empty($taxonomies)) { ?>
@@ -192,7 +192,7 @@ final class KemiSitemap_Admin
                   <span class="kemisitemap-variables-title">
                     <strong><?php _e('List Style', 'KemiSitemap'); ?></strong>
                   </span>
-                  <label><input class="kemisitemap-cpt-style" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][style]" value="1" <?php echo checked($style, 1, 1); ?> /><?php _e('Combined Post Categories and Individual Posts', 'KemiSitemap'); ?></label>
+                  <label class="kemisitemap-variable-checkbox"><input class="kemisitemap-cpt-style" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][style]" value="1" <?php echo checked($style, 1, 1); ?> /><?php _e('Combined Post Categories and Individual Posts', 'KemiSitemap'); ?></label>
                 </div>
               <?php } ?>
               <div class="kemisitemap-variables" variable="excludes">

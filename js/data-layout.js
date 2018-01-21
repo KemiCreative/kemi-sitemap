@@ -101,15 +101,39 @@ const $value = [
     const labelChange = (event) => {
       // Find the VIEWING WINDOW CPT based on labelPrev variable
       // 'VIEWING WINDOW CPT' = event.target.value;
-      if (event.target.value == '') {
-        console.log('mike is gay');
+      if (event.target.value === '') {
         event.target.value = event.target.placeholder;
       }
       for (let i = 0; i < cpt_blocks.length; i++) {
         let block = cpt_blocks[i].querySelector('h3');
-        if (block.textContent == labelPrev) {
+        if (block.textContent === labelPrev) {
           block.textContent = event.target.value;
         }
+      }
+    }
+
+    /*
+     * Description: Function to toggle the CPT Individual Pages
+     */
+    const includeInd = (event) => {
+
+      if(event.target.checked){
+        console.log('checked');
+
+        let key = event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('post-type');
+
+        for (let i = 0; i < cpt_blocks.length; i++) {
+          let block = cpt_blocks[i];
+          if (block.getAttribute('post-type') === key) {
+            let divs = block.querySelectorAll('div');
+            for(let e = 0; e < divs.length; e++){
+              block.removeChild(divs[e]);
+            }
+          }
+        }
+
+      } else {
+        console.log('unchecked');
       }
 
     }
@@ -117,6 +141,7 @@ const $value = [
     $('.kemisitemap_cpts .switch input').on('click', toggleCPT);
     $('.kemisitemap-cpt-label').on('focus', labelFocus);
     $('.kemisitemap-cpt-label').on('change', labelChange);
+    $('.kemisitemap-cpt-ind').on('change', includeInd);
 
     /*
     let output = [];
