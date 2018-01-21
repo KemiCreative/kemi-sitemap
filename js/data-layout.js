@@ -33,6 +33,7 @@ const $value = [
 
     const kemi_sitemap = document.querySelector('.kemisitemap_cpts');
     const cpt_blocks = document.querySelectorAll('.kemi-sitemap-pt-block');
+    const cpt_blocks_wrapper = document.querySelector('#kemi-sitemap');
 
     let labelPrev = '';
 
@@ -42,18 +43,19 @@ const $value = [
      */
     const toggleCPT = (event) => {
       if (event.target.parentNode.className == 'switch') {
+
+        let key = event.target.parentNode.parentNode.parentNode.getAttribute('post-type');
+
         if (event.target.checked) {
           // Show the CPT in the Viewing Window
           //console.log('checked');
-          //console.log(event.target.parentNode.parentNode.parentNode.getAttribute('post-type'));
-          let key = event.target.parentNode.parentNode.parentNode.getAttribute('post-type');
-          let label = event.target.parentNode.parentNode.childNodes[3];
-          //console.log(label.value);
-          console.log("key " + key + " and " + label.value);
-          ajaxToggleCPT(key, label.value);
+          let label = event.target.parentNode.parentNode.childNodes[3].value;
+          ajaxToggleCPT(key, label);
         } else {
           // Remove the CPT from the Viewing Window
-          console.log('unchecked');
+          // console.log('unchecked');
+          var element = cpt_blocks_wrapper.querySelector('.kemi-sitemap-pt-block[post-type=' + key + ']');
+          element.parentNode.removeChild(element);
         }
       }
     }
