@@ -151,19 +151,19 @@ final class KemiSitemap_Admin
         echo '<h2>Current Custom Post Types</h2>';
         echo '<p class="kemisitemap-cpts-errors" class="description"></p>';
         foreach ($post_types as $post_type) {
-          // print_r($post_type);
+            // print_r($post_type);
 
-          $taxonomies = get_object_taxonomies($post_type->name);
-          // echo '<pre>';
-          // print_r($taxonomies);
-          // echo '</pre>';
+            $taxonomies = get_object_taxonomies($post_type->name, 'objects');
+            // echo '<pre>';
+            // print_r($taxonomies);
+            // echo '</pre>';
 
-          // echo '<pre>';
-          // print_r($post_type->name);
-          // echo '</pre>';
+            // echo '<pre>';
+            // print_r($post_type->name);
+            // echo '</pre>';
 
-          $checked = (empty($this->options[$post_type->name]['active']) ? 0 : 1);
-          $label = (empty($this->options[$post_type->name]['label']) ? $post_type->label : $this->options[$post_type->name]['label']); ?>
+            $checked = (empty($this->options[$post_type->name]['active']) ? 0 : 1);
+            $label = (empty($this->options[$post_type->name]['label']) ? $post_type->label : $this->options[$post_type->name]['label']); ?>
           <div class="kemisitemap-cpt-toggle" post-type="<?php echo $post_type->name; ?>">
             <div class="kemisitemap-cpt-title">
               <strong><?php echo $post_type->label; ?></strong>
@@ -180,10 +180,18 @@ final class KemiSitemap_Admin
                     <strong><?php _e('Includes', 'KemiSitemap'); ?></strong>
                   </span>
                   <?php
-                  $category = (empty($this->options[$post_type->name]['cat']) ? 0 : 1);
-                  $ind = (empty($this->options[$post_type->name]['ind']) ? 0 : 1); ?>
-                  <label class="kemisitemap-variable-checkbox"><input class="kemisitemap-cpt-cat" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][cat]" value="1" <?php echo checked($category, 1, 1); ?> /><?php echo $post_type->label; ?> <?php _e('Categories', 'KemiSitemap'); ?></label>
-                  <label class="kemisitemap-variable-checkbox"><input class="kemisitemap-cpt-ind" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][ind]" value="1" <?php echo checked($ind, 1, 1); ?> /><?php _e('Individual ', 'KemiSitemap'); ?> <?php echo $post_type->label; ?> </label>
+                  foreach($taxonomies as $tax){
+                    $category = (empty($this->options[$post_type->name][$tax->name]) ? 0 : 1);
+                    $tax_name = $tax->label;
+
+                    ?>
+                    <label><input class="kemisitemap-cpt-cat" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][<?php echo $tax->name; ?>]" value="1" <?php echo checked($category, 1, 1); ?> /><?php echo $post_type->labels->singular_name; ?> <?php echo $tax_name; ?></label>
+                    <?php
+                  }
+                   ?>
+
+                  <?php $ind = (empty($this->options[$post_type->name]['ind']) ? 0 : 1); ?>
+                  <label><input class="kemisitemap-cpt-ind" type="checkbox" name="KemiSitemap_options[<?php echo $post_type->name; ?>][ind]" value="1" <?php echo checked($ind, 1, 1); ?> /><?php _e('Individual ', 'KemiSitemap'); ?> <?php echo $post_type->label; ?> </label>
                 </div>
               <?php } ?>
               <?php if (!empty($taxonomies)) { ?>

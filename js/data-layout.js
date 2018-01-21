@@ -125,15 +125,23 @@ const $value = [
         for (let i = 0; i < cpt_blocks.length; i++) {
           let block = cpt_blocks[i];
           if (block.getAttribute('post-type') === key) {
+
+          }
+        }
+
+      } else {
+        console.log('unchecked');
+        let key = event.target.parentNode.parentNode.parentNode.parentNode.getAttribute('post-type');
+
+        for (let i = 0; i < cpt_blocks.length; i++) {
+          let block = cpt_blocks[i];
+          if (block.getAttribute('post-type') === key) {
             let divs = block.querySelectorAll('div');
             for(let e = 0; e < divs.length; e++){
               block.removeChild(divs[e]);
             }
           }
         }
-
-      } else {
-        console.log('unchecked');
       }
 
     }
