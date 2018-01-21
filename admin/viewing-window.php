@@ -28,9 +28,9 @@ final class KemiSitemap_Viewing_Window
     public function KemiSitemap_is_admin_page()
     {
         if (get_current_screen()->base == 'settings_page_'.KEMISITEMAP_SLUG) {
-            return false;
+            return 'true';
         }
-        return true;
+        return 'false';
     }
 
     /**
@@ -50,13 +50,11 @@ final class KemiSitemap_Viewing_Window
     public function KemiSitemap_args_setup()
     {
         $this->options = get_option('KemiSitemap_options');
-
         // return '<pre>'. print_r($this->options, false) . '</pre>';
         if ($this->KemiSitemap_is_admin_page()) {
             $this->args = array(
         'title' => '<h1>Sitemap Page</h1>',
         'paragraph' => '<p>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum <br/>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum <br />Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem …</p>',
-        'showposts' => 5,
         'cpts' => array(),
       );
             foreach ($this->options as $key => $value) {
@@ -81,7 +79,6 @@ final class KemiSitemap_Viewing_Window
             $this->args = array(
         'title' => false,
         'paragraph' => false,
-        'showposts' => -1,
         'cpts' => array()
       );
         }
@@ -113,14 +110,29 @@ final class KemiSitemap_Viewing_Window
     public function KemiSitemap_template_block($key, $post_type, $ajax = false)
     {
         //$output = '';
-
+        $excludes = array();
         // echo '<br>' . print_r($key, 1) . '<br>';
         // echo print_r($post_type, 1) . '<br>';
-
+        if ($this->KemiSitemap_is_admin_page()) {
+            $showposts = 5;
+        } else {
+            $showposts = -1;
+        }
+        if ($this->args['cpts'][$key]['excludes']) {
+            $excludes = str_replace(' ', '', $this->args['cpts'][$key]['excludes']);
+            $excludes = explode(',', $excludes);
+        }
+        
         $output .= '<div post-type="'.$key.'" class="kemi-sitemap-pt-block">';
         $output .= '<h3>' . $post_type['label'] . '</h3>';
-
-        $pt = new WP_Query(array('post_type' => $key, 'showposts' => 3 /* USED TO BE $showpost */));
+        print_r($excludes);
+        $pt = new WP_Query(
+          array(
+            'post_type' => $key,
+            'showposts' => $showposts,
+            'post__not_in' => $excludes,
+          )
+        );
         if ($pt->have_posts()) {
             while ($pt->have_posts()) {
                 $pt->the_post();

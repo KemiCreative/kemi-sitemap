@@ -17,10 +17,10 @@ final class KemiSitemap_Admin
      */
     public function KemiSitemap_is_admin_page()
     {
-        if (! is_admin()) {
-            return false;
+        if (get_current_screen()->base == 'settings_page_'.KEMISITEMAP_SLUG) {
+            return 'true';
         }
-        return true;
+        return 'false';
     }
 
     /**
@@ -59,7 +59,7 @@ final class KemiSitemap_Admin
     */
     private function KemiSitemap_admin_body_class($classes)
     {
-        if (! KemiSitemap_is_admin_page()) {
+        if (! $this->KemiSitemap_is_admin_page()) {
             return $classes;
         }
 
@@ -237,14 +237,6 @@ and Individual Posts', 'KemiSitemap'); ?>
 
   	</form>
   	<?php
-  $pt = new WP_Query(array('post_type' => 'tribe_events', 'showposts' => 3, 'post_status'=>'publish', /* USED TO BE $showpost */));
-        if ($pt->have_posts()) {
-            while ($pt->have_posts()) {
-                $pt->the_post();
-                echo '<div><a href="'.get_the_permalink().'">' . get_the_title() . '</a></div>';
-            }
-            wp_reset_postdata();
-        }
         echo $this->main -> KemiSitemap_template();
     }
 }
