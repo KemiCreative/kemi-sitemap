@@ -28,101 +28,107 @@ const $value = [
 ];
 */
 
-(function($){
+(function($) {
   $(document).ready(() => {
 
-		const kemi_sitemap = document.querySelector('.kemisitemap_cpts');
-		const cpt_blocks = document.querySelectorAll('.kemi-sitemap-pt-block');
+    const kemi_sitemap = document.querySelector('.kemisitemap_cpts');
+    const cpt_blocks = document.querySelectorAll('.kemi-sitemap-pt-block');
 
-		let labelPrev = '';
+    let labelPrev = '';
 
-
-		/*
-		 * Description: Function to Toggle the CPT in Viewing Window
-		 */
-		const toggleCPT = (event) => {
-			if(event.target.parentNode.className == 'switch'){
-				if(event.target.checked){
-					// Show the CPT in the Viewing Window
-					console.log('checked');
-          console.log(event.target.parentNode.parentNode.parentNode.getAttribute('post-type'));
-          let key = event.target.parentNode.parentNode.parentNode.getAttribute('post-type');
-          let label = event.target.parentNode.parentNode.childNodes[3];
-          console.log(label.value);
-          ajaxToggleCPT(key, label);
-				} else {
-					// Remove the CPT from the Viewing Window
-					console.log('unchecked');
-				}
-			}
-		}
 
     /*
-		 * Description: Function to run AJAX that Toggles the CPT in Viewing Window
-		 */
+     * Description: Function to Toggle the CPT in Viewing Window
+     */
+    const toggleCPT = (event) => {
+      if (event.target.parentNode.className == 'switch') {
+        if (event.target.checked) {
+          // Show the CPT in the Viewing Window
+          //console.log('checked');
+          //console.log(event.target.parentNode.parentNode.parentNode.getAttribute('post-type'));
+          let key = event.target.parentNode.parentNode.parentNode.getAttribute('post-type');
+          let label = event.target.parentNode.parentNode.childNodes[3];
+          //console.log(label.value);
+          console.log("key " + key + " and " + label.value);
+          ajaxToggleCPT(key, label.value);
+        } else {
+          // Remove the CPT from the Viewing Window
+          console.log('unchecked');
+        }
+      }
+    }
+
+    /*
+     * Description: Function to run AJAX that Toggles the CPT in Viewing Window
+     */
     const ajaxToggleCPT = (key, label) => {
       console.log('test');
       $.ajax({
-    		type: "POST",
-    		dataType: 'html',
-    		data: {
-      		action: 'KemiSitemap_template_block_setup',
+        type: "POST",
+        dataType: 'html',
+        data: {
+          action: 'KemiSitemap_template_block_setup',
           key: key,
           post_type: {
-            'label':label,
+            'label': label,
           },
         },
-    		url: kemiSitemapLocalScript.ajax_url,
-    		success: function (response) {
+        url: kemiSitemapLocalScript.ajax_url,
+        error: function(response) {
           console.log(response);
-          console.log('this is a test');
-    		}
-    	});
+          console.log('error this is a test');
+        },
+        success: function(response) {
+          console.log(response);
+          console.log('success this is a test');
+          $('#kemi-sitemap').append(response);
+        }
+      });
     }
 
-		/*
-		 * Description: Function to set the current label value before change
-		 */
-		const labelFocus = (event) => {
-			labelPrev = event.target.value;
-		}
+    /*
+     * Description: Function to set the current label value before change
+     */
+    const labelFocus = (event) => {
+      labelPrev = event.target.value;
+    }
 
-		/*
-		 * Description: Function to change the CPT label in the Viewing Window
-		 */
-		const labelChange = (event) => {
-			// Find the VIEWING WINDOW CPT based on labelPrev variable
-			// 'VIEWING WINDOW CPT' = event.target.value;
-			for(let i = 0; i < cpt_blocks.length; i++){
-				let block = cpt_blocks[i].querySelector('h3');
-				if(block.textContent == labelPrev){
-					block.textContent = event.target.value;
-				}
-			}
+    /*
+     * Description: Function to change the CPT label in the Viewing Window
+     */
+    const labelChange = (event) => {
+      // Find the VIEWING WINDOW CPT based on labelPrev variable
+      // 'VIEWING WINDOW CPT' = event.target.value;
+      for (let i = 0; i < cpt_blocks.length; i++) {
+        let block = cpt_blocks[i].querySelector('h3');
+        if (block.textContent == labelPrev) {
+          block.textContent = event.target.value;
+        }
+      }
 
-		}
+    }
 
-		$('.kemisitemap_cpts .switch input').on('click', toggleCPT);
-		$('.kemisitemap-cpt-label').on('focus', labelFocus);
-		$('.kemisitemap-cpt-label').on('change', labelChange);
+    $('.kemisitemap_cpts .switch input').on('click', toggleCPT);
+    $('.kemisitemap-cpt-label').on('focus', labelFocus);
+    $('.kemisitemap-cpt-label').on('change', labelChange);
 
-  	/*
-  	let output = [];
+    /*
+    let output = [];
 
-  	for(let i = 0; i < cpts.length; i++){
-  		let value = {};
-  		let checkbox = cpts[i].querySelector('input[type=checkbox]');
-  		value.post_type = checkbox.value;
-  		value.active = checkbox.checked ? 1 : 0;
+    for(let i = 0; i < cpts.length; i++){
+    	let value = {};
+    	let checkbox = cpts[i].querySelector('input[type=checkbox]');
+    	value.post_type = checkbox.value;
+    	value.active = checkbox.checked ? 1 : 0;
 
-  		value.includes = {};
+    	value.includes = {};
 
-  		value.includes.taxonomy = checkbox.getAttribute('taxonomy');
+    	value.includes.taxonomy = checkbox.getAttribute('taxonomy');
 
-  		value.includes.taxonomies = checkbox.getAttribute('taxonomy');
+    	value.includes.taxonomies = checkbox.getAttribute('taxonomy');
 
-  		output.push(value);
-  	}*/
+    	output.push(value);
+    }*/
 
   });
 })(jQuery);
